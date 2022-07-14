@@ -11,7 +11,7 @@ composer require wpzag/laravel-notifications
 You can publish the translations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-notifications-translations"
+php artisan vendor:publish --tag="notifications-translations"
 ```
 
 This will publish the translations to app/resources/lang folder.
