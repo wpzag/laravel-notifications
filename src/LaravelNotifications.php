@@ -12,7 +12,7 @@
 
     class LaravelNotifications
     {
-        public static function getPaginatedNotifications(?NotifiableInterface $user = null, ?int $perPage = 10): AnonymousResourceCollection
+        public static function getPaginatedNotifications( $user = null, ?int $perPage = 10): AnonymousResourceCollection
         {
             $user ??= auth()->user();
             $perPage ??= 10;
