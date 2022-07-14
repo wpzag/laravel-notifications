@@ -33,7 +33,7 @@ This will publish the translations to app/resources/lang folder.
 ```php
  <?php
 	
-	namespace Wpzag\LaravelNotifications\Tests\TestNotifications;
+	namespace App\Notifications;
 	
 	use Wpzag\LaravelNotifications\BaseNotification;
 	
