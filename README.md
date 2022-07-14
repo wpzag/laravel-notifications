@@ -1,71 +1,85 @@
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
-
-# :package_description
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/run-tests?label=tests)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/Check%20&%20fix%20styling?label=code%20style)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
-
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+## Test Repo 🚧 🚧 🚧
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require wpzag/laravel-notifications
 ```
 
-You can publish and run the migrations with:
+You can publish the translations with:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+php artisan vendor:publish --tag="laravel-notifications-translations"
 ```
 
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
+This will publish the translations to app/resources/lang folder.
 
 ## Usage
 
+1) First we need to use the Notifiable trait in the user model:
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+    use Wpzag\LaravelNotifications\Traits\Notifiable;
+    class User extends Authenticatable
+    {
+        use Notifiable;
+     }
+```
+
+2) Then we need to create a notification class that extends BaseNotification class:
+
+```php
+ <?php
+	
+	namespace Wpzag\LaravelNotifications\Tests\TestNotifications;
+	
+	use Wpzag\LaravelNotifications\BaseNotification;
+	
+	class TestNotification extends BaseNotification
+	{
+		public function getTranslationParams() : array
+		{
+			return [
+				'user'=>'user.name',
+			];
+		}
+		
+		
+		public function getNotificationLink() : string
+		{
+			return 'users/'.$this->relations['user']['id'];
+		}
+	}
+
+```
+
+3) Notify the user
+
+```php
+   User::first()->notify(
+         TestNotification::create(
+                 key: 'user_updated',
+                 relations: ['user' => User::first()],
+                 data: ['random' => 'data']
+    ));
+```
+
+4) Add entry in translation file:
+
+```php
+return [
+  'user_updated' => ':user has updated his profile',
+  'titles' => [ 'user_updated' => 'User Updated' ],
+]
+```
+
+4) Then we get the notifications with:
+
+```php
+  use Wpzag\LaravelNotifications\LaravelNotifications;
+  LaravelNotifications::getPaginatedNotifications();
 ```
 
 ## Testing
@@ -80,7 +94,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/:author_username/.github/blob/main/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/wpzag/.github/blob/main/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
@@ -88,7 +102,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [wpzag](https://github.com/wpzag)
 - [All Contributors](../../contributors)
 
 ## License
