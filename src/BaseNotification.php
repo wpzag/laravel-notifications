@@ -40,7 +40,7 @@
 		public function toBroadcast($notifiable) : BroadcastMessage
 		{
 			return new BroadcastMessage([
-				'message' => $this->title,
+				'message' => $this->message,
 			]);
 		}
 		

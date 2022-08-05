@@ -8,13 +8,12 @@ You can install the package via composer:
 composer require wpzag/laravel-notifications
 ```
 
-You can publish the translations with:
+Create notifications table
 
 ```bash
-php artisan vendor:publish --tag="notifications-translations"
+php artisan notifications:table
+php artisan migrate
 ```
-
-This will publish the translations to app/resources/lang folder.
 
 ## Usage
 
@@ -55,6 +54,15 @@ This will publish the translations to app/resources/lang folder.
 
 ```
 
+3) Create notifications.php in lang/en and add entry in translation file:
+
+```php
+return [
+  'user_updated' => ':user has updated his profile',
+  'titles' => [ 'user_updated' => 'User Updated' ],
+]
+```
+
 3) Notify the user
 
 ```php
@@ -64,15 +72,6 @@ This will publish the translations to app/resources/lang folder.
                  relations: ['user' => User::first()],
                  data: ['random' => 'data']
     ));
-```
-
-4) Add entry in translation file:
-
-```php
-return [
-  'user_updated' => ':user has updated his profile',
-  'titles' => [ 'user_updated' => 'User Updated' ],
-]
 ```
 
 4) Then we get the notifications with:
