@@ -83,12 +83,12 @@
 		
 		private function buildTranslationMessage() : void
 		{
-			$this->message = str()->markdown(__("notifications::notifications." . $this->key, $this->translationParams));
+			$this->message = str()->markdown(__("notifications." . $this->key, $this->translationParams));
 		}
 		
 		private function buildTranslationTitleMessage() : void
 		{
-			$this->title = str()->markdown(__("notifications::notifications.titles." . $this->key, $this->translationParams));
+			$this->title = str()->markdown(__("notifications.titles." . $this->key, $this->translationParams));
 		}
 		
 		private function buildNotificationLink() : void
